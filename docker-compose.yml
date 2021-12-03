@@ -2,7 +2,16 @@ version: "3.8"
 services:
   web:
     build: .
+    links:
+      - mysqldb
     ports:
       - "5000:5000"
-  redis:
-    image: "redis:alpine"
+  mysqldb:
+    image: mysql:5.7
+    ports:
+      - "12345:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+    
