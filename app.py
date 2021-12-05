@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 import mysql.connector
 
@@ -23,10 +24,23 @@ def get_hit_count():
 
     return result
 
+from flask import send_from_directory     
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(os.path.join(
+        app.root_path, 'static'), 
+        'favicon.ico', 
+        mimetype='image/vnd.microsoft.icon')
+# from flask import url_for
+# app.add_url_rule(
+#     '/favicon.ico', 
+#     redirect_to=url_for('static', filename='favicon.ico'))
+
 @app.route('/')
 def hello():
     count = get_hit_count()
     return 'Hello World from tttxxx! I have been seen {} times.\n'.format(count)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
